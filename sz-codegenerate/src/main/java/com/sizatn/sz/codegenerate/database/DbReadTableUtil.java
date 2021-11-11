@@ -504,6 +504,8 @@ public class DbReadTableUtil {
 	private static String a(String paramString1, String paramString2, String paramString3) {
 		if (paramString1.contains("char")) {
 			paramString1 = "java.lang.String";
+		} else if (paramString1.contains("bigint")) {
+			paramString1 = "java.lang.Long";
 		} else if (paramString1.contains("int")) {
 			paramString1 = "java.lang.Integer";
 		} else if (paramString1.contains("float")) {
