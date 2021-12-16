@@ -90,7 +90,7 @@ public class DbReadTableUtil {
 			stmt = conn.createStatement(1005, 1007);
 			if (CodeConfigProperties.databaseType.equals("mysql")) {
 				sql = MessageFormat.format(
-						"select column_name,data_type,column_comment,numeric_precision,numeric_scale,character_maximum_length,is_nullable nullable from information_schema.columns where table_name = {0} and table_schema = {1}",
+						"select column_name,data_type,column_comment,numeric_precision,numeric_scale,character_maximum_length,is_nullable nullable from information_schema.columns where table_name = {0} and table_schema = {1} order by ordinal_position",
 						new Object[] { TableConvert.getV(tableName.toUpperCase()),
 								TableConvert.getV(CodeConfigProperties.databaseName) });
 			}
