@@ -3,25 +3,25 @@
 
     <!-- 查询区域 -->
     <div class="table-page-search-wrapper">
-      <a-form layout="inline">
+      <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
 
 <#list columns as po>
 <#if po.fieldName !='id' && po_index<= tableVo.searchFieldNum>
-          <a-col :md="6" :sm="8">
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="${po.filedComment}">
               <a-input placeholder="请输入${po.filedComment}" v-model="queryParam.${po.fieldName}"></a-input>
             </a-form-item>
           </a-col>
 <#elseif po_index == 2>
         <template v-if="toggleSearchStatus">
-        <a-col :md="6" :sm="8">
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="${po.filedComment}">
               <a-input placeholder="请输入${po.filedComment}" v-model="queryParam.${po.fieldName}"></a-input>
             </a-form-item>
           </a-col>
 <#elseif po.fieldName !='id' && po_index< 5>
-          <a-col :md="6" :sm="8">
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <a-form-item label="${po.filedComment}">
               <a-input placeholder="请输入${po.filedComment}" v-model="queryParam.${po.fieldName}"></a-input>
             </a-form-item>
@@ -29,8 +29,10 @@
 <#else>
 </#if>
 </#list>
-        </template>
-          <a-col :md="6" :sm="8" >
+        <#if (columns?size>1) >
+          </template>
+        </#if>
+          <a-col :xl="6" :lg="7" :md="8" :sm="24">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
@@ -76,6 +78,7 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
+        class="j-table-force-nowrap"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
@@ -105,6 +108,7 @@
 </template>
 
 <script>
+  import '@/assets/less/TableExpand.less'
   import ${entityName}Modal from './modules/${entityName}Modal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
@@ -151,6 +155,7 @@
           deleteBatch: "/${entityPackage}/${entityName?uncap_first}/deleteBatch",
           exportXlsUrl: "${entityPackage}/${entityName?uncap_first}/exportXls",
           importExcelUrl: "${entityPackage}/${entityName?uncap_first}/importExcel",
+          downloadTemplate: "/biz-module-container/baseconfig/containerInfo/downloadTemplateDemoOne"
        },
     }
   },
@@ -165,5 +170,5 @@
   }
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+  @import '~@assets/less/common.less';
 </style>

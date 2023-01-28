@@ -1,0 +1,64 @@
+package ${bussiPackage}.${entityPackage}.entity;
+
+import java.io.Serializable;
+import javax.validation.constraints.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import com.sizatn.sz.common.validation.GroupVaildDTO;
+
+/**
+ * @desc ${tableVo.ftlDescription}
+ * @author sizatn
+ * @date ${.now?string["yyyy-MM-dd"]}
+ */
+@ApiModel("${tableVo.ftlDescription}")
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("${tableName}")
+public class ${entityName} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
+    <#list originalColumns as po>
+	/**${po.filedComment}*/
+	@ApiModelProperty(value="${po.filedComment}<#if po.nullable=='N'> -必填</#if><#if po.fieldDbType=='varchar'> -长度:${po.charmaxLength}</#if>", position=${po_index}<#if po.fieldDbType =='date'>, example = "2019-01-01"<#elseif po.fieldDbType =='datetime'>, example = "2019-01-01 12:00:00"</#if><#if po.fieldName == "createTime" || po.fieldName == "createBy" || po.fieldName == "updateTime" || po.fieldName == "updateBy">, hidden = true</#if>)
+	<#if po.fieldName == tableId>
+	@TableId(type = IdType.UUID)
+	</#if>
+	<#if po.nullable=='N'>
+	@NotNull(message="${po.filedComment}(${po.fieldName})不能为空", groups= {GroupVaildDTO.<#if po.fieldName == tableId>UpdateGroup<#else>AddGroup</#if>.class})
+	</#if>
+	<#if po.fieldDbType =='date'>
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+	<#elseif po.fieldDbType =='datetime'>
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	<#elseif po.fieldDbType =='varchar'>
+	@Size(max=${po.charmaxLength}, message="${po.filedComment}(${po.fieldName})长度不能大于${po.charmaxLength}")
+	<#elseif po.fieldDbType =='int'>
+	@Max(value=Integer.MAX_VALUE , message="${po.filedComment}(${po.fieldName})的值不能大于"+Integer.MAX_VALUE)
+	@Min(value=Integer.MIN_VALUE , message="${po.filedComment}(${po.fieldName})的值不能小于"+Integer.MIN_VALUE)
+	<#elseif po.fieldDbType =='tinyint'>
+	@Max(value=127 , message="${po.filedComment}(${po.fieldName})的值不能大于127")
+	@Min(value=-128 , message="${po.filedComment}(${po.fieldName})的值不能小于-128")
+	<#elseif po.fieldDbType =='smallint'>
+	@Max(value=Short.MAX_VALUE , message="${po.filedComment}(${po.fieldName})的值不能大于"+Short.MAX_VALUE)
+	@Min(value=Short.MIN_VALUE , message="${po.filedComment}(${po.fieldName})的值不能小于"+Short.MIN_VALUE)
+	<#elseif po.fieldDbType =='mediumint'>
+	@Max(value=8388607 , message="${po.filedComment}(${po.fieldName})的值不能大于8388607")
+	@Min(value=-8388608 , message="${po.filedComment}(${po.fieldName})的值不能小于-8388608")
+	</#if>
+	private <#if po.fieldType=='java.sql.Blob'>byte[]<#else>${po.fieldType}</#if> ${po.fieldName};
+	
+	</#list>
+}

@@ -126,6 +126,7 @@ public class CodeGenerateOne extends BaseCodeGenerate implements IGenerate {
 		localTableVo.setEntityName("Demo");
 		localTableVo.setFtlDescription("测试demo");
 
+
 		try {
 			(new CodeGenerateOne(localTableVo)).generateCodeFile();
 		} catch (Exception localException) {

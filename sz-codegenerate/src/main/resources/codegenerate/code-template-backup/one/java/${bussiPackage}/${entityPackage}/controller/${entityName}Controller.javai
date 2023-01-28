@@ -1,0 +1,130 @@
+package ${bussiPackage}.${entityPackage}.controller;
+
+import java.util.Arrays;
+import com.sizatn.sz.common.constant.Constants;
+import com.sizatn.sz.common.controller.BaseController;
+import com.sizatn.sz.common.model.PageParam;
+import com.sizatn.sz.common.model.Result;
+import com.sizatn.sz.common.util.ResultUtil;
+import com.sizatn.sz.common.validation.GroupVaildDTO;
+import com.sizatn.sz.utils.common.IDUtils;
+import ${bussiPackage}.${entityPackage}.entity.${entityName};
+import ${bussiPackage}.${entityPackage}.service.I${entityName}Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @desc ${tableVo.ftlDescription}
+ * @author Wangyouzheng
+ * @date ${.now?string["yyyy-MM-dd"]}
+ */
+@RestController
+@Api(tags={"${entityName?uncap_first}"})
+@Slf4j
+public class ${entityName}Controller extends BaseController<${entityName}> {
+
+	@Autowired
+	private I${entityName}Service ${entityName?uncap_first}Service;
+	
+	/**
+	 * @desc 分页列表查询${tableVo.ftlDescription}
+	 * @param ${entityName?uncap_first}
+	 * @param pageParam
+	 * @return
+	 */
+	@ApiOperation(value = "分页列表查询${tableVo.ftlDescription}")
+	@GetMapping(value = "/${entityName?uncap_first}/list")
+	public Result<IPage<${entityName}>> queryPageList(${entityName} ${entityName?uncap_first}, PageParam pageParam) {
+		//构建分页查询
+		QueryWrapper<${entityName}> queryWrapper = buildQuery(${entityName?uncap_first}, pageParam);
+		Page<${entityName}> page = buildPage(pageParam);
+		IPage<${entityName}> pageList = ${entityName?uncap_first}Service.page(page, queryWrapper);
+		return ResultUtil.success("成功", pageList);
+	}
+	
+	/**
+	 * @desc 新增${tableVo.ftlDescription}
+	 * @param ${entityName?uncap_first}
+	 * @return
+	 */
+	@ApiOperation(value = "新增${tableVo.ftlDescription}")
+	@PostMapping(value = "/${entityName?uncap_first}")
+	public Result<${entityName}> add(@RequestBody @Validated(GroupVaildDTO.AddGroup.class) ${entityName} ${entityName?uncap_first}) {
+		${entityName?uncap_first}.set${tableId?cap_first}(IDUtils.uuid());
+		${entityName?uncap_first}Service.save(${entityName?uncap_first});
+		return ResultUtil.success("新增成功", ${entityName?uncap_first});
+	}
+	
+	/**
+	 * @desc 修改${tableVo.ftlDescription}
+	 * @param ${entityName?uncap_first}
+	 * @return
+	 */
+	@ApiOperation(value = "修改${tableVo.ftlDescription}")
+	@PutMapping(value = "/${entityName?uncap_first}")
+	public Result<${entityName}> edit(@RequestBody @Validated(GroupVaildDTO.UpdateGroup.class) ${entityName} ${entityName?uncap_first}) {
+		if(${entityName?uncap_first}Service.updateById(${entityName?uncap_first})){
+			return ResultUtil.success("修改成功", ${entityName?uncap_first});
+		} else {
+			return ResultUtil.error(Constants.SC_NOT_FOUND,"修改失败:未找到对应实体");
+		}
+	}
+	
+	/**
+	 * @desc 通过id删除${tableVo.ftlDescription}
+	 * @param id
+	 * @return
+	 */
+	@ApiOperation(value = "通过id删除${tableVo.ftlDescription}")
+	@DeleteMapping(value = "/${entityName?uncap_first}/{id}")
+	public Result<${entityName}> delete(@PathVariable(name = "id", required = true) String id) {
+		if(${entityName?uncap_first}Service.removeById(id)){
+			return ResultUtil.success("删除成功");
+		} else {
+			return ResultUtil.error(Constants.SC_NOT_FOUND,"删除失败:未找到对应实体");
+		}
+	}
+	
+	/**
+	 * @desc 批量删除${tableVo.ftlDescription}
+	 * @param ids
+	 * @return
+	 */
+	@ApiOperation(value = "批量删除${tableVo.ftlDescription}")
+	@DeleteMapping(value = "/${entityName?uncap_first}/deleteBatch")
+	public Result<${entityName}> deleteBatch(@ApiParam(value = "多个ID,用逗号分隔", required = true) @RequestParam(name = "ids", required = true) String ids) {
+		if(ids == null || "".equals(ids.trim())) {
+			return ResultUtil.error(Constants.SC_BAD_REQUEST, "参数ids不能为空");
+		}else {
+			this.${entityName?uncap_first}Service.removeByIds(Arrays.asList(ids.split(",")));
+			return ResultUtil.success("删除成功");
+		}
+	}
+	
+	/**
+	 * @desc 通过id查询${tableVo.ftlDescription}
+	 * @param id
+	 * @return
+	 */
+	@ApiOperation(value = "通过id查询${tableVo.ftlDescription}")
+	@GetMapping(value = "/${entityName?uncap_first}/{id}")
+	public Result<${entityName}> queryById(@PathVariable(name = "id", required = true) String id) {
+		${entityName} ${entityName?uncap_first} = ${entityName?uncap_first}Service.getById(id);
+		if(${entityName?uncap_first} == null) {
+			return ResultUtil.error(Constants.SC_NOT_FOUND, "未找到对应实体");
+		}else {
+			return ResultUtil.success("成功", ${entityName?uncap_first});
+		}
+	}
+
+}

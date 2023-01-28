@@ -1,0 +1,13 @@
+package ${bussiPackage}.service.${entityPackage};
+
+import ${bussiPackage}.entity.${entityPackage}.${entityName};
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * @desc ${tableVo.ftlDescription}
+ * @author sizatn
+ * @date ${.now?string["yyyy-MM-dd"]}
+ */
+public interface I${entityName}Service extends IService<${entityName}> {
+
+}
