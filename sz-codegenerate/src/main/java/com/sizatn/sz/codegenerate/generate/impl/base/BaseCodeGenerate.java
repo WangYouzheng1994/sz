@@ -1,29 +1,23 @@
 package com.sizatn.sz.codegenerate.generate.impl.base;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sizatn.sz.codegenerate.config.CodeConfigProperties;
 import com.sizatn.sz.codegenerate.generate.base.CreateFileConfig;
 import com.sizatn.sz.codegenerate.generate.util.FileHelper;
 import com.sizatn.sz.codegenerate.generate.util.FreemarkerHelper;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 代码生成器基类
+ * 核心方法为 #generateFileCommon()
+ */
 public class BaseCodeGenerate {
 	private static final Logger log = LoggerFactory.getLogger(BaseCodeGenerate.class);
 	protected static String sourceEncoding = "UTF-8";
@@ -37,6 +31,15 @@ public class BaseCodeGenerate {
 		}
 	}
 
+	/**
+	 * 扫描指定路径下的模板文件，并且将传递的模板参数进行替换
+	 *
+	 * @param projectPath
+	 * @param templateRootDir
+	 * @param templateData
+	 * @param createFileConfig
+	 * @throws Exception
+	 */
 	protected void scanTemplatesAndProcess(String projectPath, File templateRootDir, Map<String, Object> templateData,
 			CreateFileConfig createFileConfig) throws Exception {
 		if (templateRootDir == null) {
@@ -62,9 +65,11 @@ public class BaseCodeGenerate {
 		log.debug("-------templateRootDir--" + templateRootDir.getPath());
 		log.debug("-------srcFile--" + srcFile.getPath());
 
+		// 获取模板文件路径
 		String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 		try {
 			log.debug("-------templateFile--" + templateFile);
+			//
 			String outputFilepath = proceeForOutputFilepath(templateData, templateFile, createFileConfig);
 			log.debug("-------outputFilepath--" + outputFilepath);
 			if (outputFilepath.startsWith("java")) {
@@ -184,6 +189,15 @@ public class BaseCodeGenerate {
 		}
 	}
 
+	/**
+	 * 输出代码文件=
+	 *
+	 * @param filePathModel 模板替换参数
+	 * @param templateFile 模板路径文件
+	 * @param createFileConfig 模板配置对象  用以freemaker
+	 * @return
+	 * @throws Exception
+	 */
 	protected static String proceeForOutputFilepath(Map<String, Object> filePathModel, String templateFile,
 			CreateFileConfig createFileConfig) throws Exception {
 		String outputFilePath = templateFile;
@@ -207,8 +221,11 @@ public class BaseCodeGenerate {
 		Configuration conf = FreemarkerHelper.newFreeMarkerConfiguration(createFileConfig.getTemplateRootDirs(),
 				sourceEncoding, "/");
 		outputFilePath = FreemarkerHelper.processTemplateString(outputFilePath, filePathModel, conf);
+		// 扩展名
 		String extName = outputFilePath.substring(outputFilePath.lastIndexOf("."));
+		// 文件名
 		String fileName = outputFilePath.substring(0, outputFilePath.lastIndexOf(".")).replace(".", File.separator);
+		//
 		outputFilePath = fileName + extName;
 		return outputFilePath;
 	}

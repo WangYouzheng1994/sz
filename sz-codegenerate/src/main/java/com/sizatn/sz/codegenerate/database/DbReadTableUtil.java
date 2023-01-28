@@ -19,11 +19,21 @@ import com.sizatn.sz.codegenerate.database.util.CodeStringUtils;
 import com.sizatn.sz.codegenerate.generate.pojo.ColumnVo;
 import com.sizatn.sz.codegenerate.generate.util.TableConvert;
 
+/**
+ * 数据库读取工具
+ */
 public class DbReadTableUtil {
 	private static final Logger log = LoggerFactory.getLogger(DbReadTableUtil.class);
 	private static Connection conn;
 	private static Statement stmt;
 
+	/**
+	 * 根据数据库类型 加载不同的驱动，执行不同的SQL逻辑，
+	 * TODO： 此处需要更改成策略模式
+	 *
+	 * @return
+	 * @throws SQLException
+	 */
 	public static List<String> readAllTableNames() throws SQLException {
 		String sql = null;
 		List<String> tableNames = new ArrayList<String>(0);
@@ -31,7 +41,8 @@ public class DbReadTableUtil {
 			Class.forName(CodeConfigProperties.diverName);
 			conn = DriverManager.getConnection(CodeConfigProperties.url, CodeConfigProperties.username,
 					CodeConfigProperties.password);
-			stmt = conn.createStatement(1005, 1007);
+			// 结果集只读模式，支持游标上下滚动
+			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			if (CodeConfigProperties.databaseType.equals("mysql")) {
 				sql = MessageFormat.format(
 						"select distinct table_name from information_schema.columns where table_schema = {0}",

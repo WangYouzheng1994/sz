@@ -1,17 +1,50 @@
 package com.sizatn.sz.codegenerate.generate.pojo;
 
+/**
+ * 列实体类抽象封装
+ */
 public class ColumnVo extends CgFormColumnExtendVo {
 	public static final String OPTION_REQUIRED = "required:true";
 	public static final String OPTION_NUMBER_INSEX = "precision:2,groupSeparator:','";
+	/**
+	 * 字段名称大写
+	 */
 	private String fieldDbName;
+	/**
+	 * 字段名称
+	 */
 	private String fieldName;
+	/**
+	 * 字段备注
+	 */
 	private String filedComment = "";
+	/**
+	 * 字段Java类型
+	 */
 	private String fieldType = "";
+	/**
+	 * 字段数据库类型
+	 */
 	private String fieldDbType = "";
+	/**
+	 * 字段最大长度
+	 */
 	private String charmaxLength = "";
+	/**
+	 * 数据精度（小数点）
+	 */
 	private String precision;
+	/**
+	 * 总位数
+	 */
 	private String scale;
+	/**
+	 * 是否为空
+	 */
 	private String nullable;
+	/**
+	 *
+	 */
 	private String classType = "";
 	private String classType_row = "";
 	private String optionType = "";

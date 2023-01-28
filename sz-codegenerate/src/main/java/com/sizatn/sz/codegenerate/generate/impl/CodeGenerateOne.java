@@ -37,16 +37,22 @@ public class CodeGenerateOne extends BaseCodeGenerate implements IGenerate {
 	public Map<String, Object> initData() throws Exception {
 		HashMap<Object, Object> localHashMap = new HashMap<>();
 
+		// service层 包
 		localHashMap.put("bussiPackage", CodeConfigProperties.bussiPackage);
 
+		// 实体类层 包
 		localHashMap.put("entityPackage", this.tableVo.getEntityPackage());
 
+		// 实体类名称
 		localHashMap.put("entityName", this.tableVo.getEntityName());
 
+		// 表名
 		localHashMap.put("tableName", this.tableVo.getTableName());
 
+		// 主键字段名称
 		localHashMap.put("primaryKeyField", CodeConfigProperties.DB_TABLE_ID);
 
+		// 主键Id策略
 		localHashMap.put("tableId", this.tableVo.getPrimaryKeyPolicy());
 		if (this.tableVo.getFieldRequiredNum() == null) {
 			this.tableVo.setFieldRequiredNum(
@@ -90,15 +96,22 @@ public class CodeGenerateOne extends BaseCodeGenerate implements IGenerate {
 		return (Map) localHashMap;
 	}
 
+	/**
+	 * 生成代码文件
+	 *
+	 * @throws Exception
+	 */
 	public void generateCodeFile() throws Exception {
 		log.info("---Code----Generation----[单表模型:" + this.tableVo.getTableName() + "]------- 生成中。。。");
 
 		String projectPath = CodeConfigProperties.projectPath;
 		Map<String, Object> templateData = initData();
 
+		// 模板配置类
 		CreateFileConfig createFileConfig = new CreateFileConfig(CodeConfigProperties.templatePath);
 
 		try {
+			// 生成文件核心代码
 			generateFileCommon(createFileConfig, projectPath, templateData);
 		} catch (Exception e) {
 

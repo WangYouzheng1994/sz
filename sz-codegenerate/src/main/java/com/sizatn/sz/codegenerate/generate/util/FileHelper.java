@@ -9,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 文件处理器
+ */
 public class FileHelper {
 	private static final Logger log = LoggerFactory.getLogger(FileHelper.class);
 
@@ -117,5 +120,14 @@ public class FileHelper {
 			}
 		}
 		return false;
+	}
+
+
+	public static void main(String[] args) {
+		File file = new File("C://1.txt");
+
+		System.out.println(file.exists());
+		System.out.println(file.getAbsolutePath());
+
 	}
 }

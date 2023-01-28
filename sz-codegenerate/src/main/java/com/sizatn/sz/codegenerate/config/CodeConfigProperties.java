@@ -2,18 +2,51 @@ package com.sizatn.sz.codegenerate.config;
 
 import java.util.ResourceBundle;
 
+/**
+ * 代码生成器 配置
+ */
 public class CodeConfigProperties {
 	private static final ResourceBundle database_bundle = ResourceBundle.getBundle("codegenerate/codegenerate_database");
 	private static final ResourceBundle config_bundle = ResourceBundle.getBundle("codegenerate/codegenerate_config");
+	/**
+	 * 数据库类型
+	 */
 	public static String databaseType = "mysql";
+	/**
+	 * 数据库驱动全路径类名
+	 */
 	public static String diverName = "com.mysql.jdbc.Driver";
+	/**
+	 * 数据库url
+	 */
 	public static String url = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8";
+	/**
+	 * 数据库账号
+	 */
 	public static String username = "root";
+	/**
+	 * 数据库密码
+	 */
 	public static String password = "mysql";
+	/**
+	 * 数据库 database
+	 */
 	public static String databaseName = "test";
+	/**
+	 * 代码生成的项目地址：根目录
+	 */
 	public static String projectPath = "c:/workspace/test";
+	/**
+	 * 基础包名前缀
+	 */
 	public static String bussiPackage = "com.sizatn";
+	/**
+	 * 模板地址，当前classpass的相对路径
+	 */
 	public static String templatePath = "/codegenerate/code-template/";
+	/**
+	 *
+	 */
 	public static boolean DB_FILED_CONVERT = true;
 	public static String PAGE_FIELD_REQUIRED_NUM = "4";
 	public static String PAGE_FIELD_SEARCH_NUM = "3";
@@ -53,7 +86,15 @@ public class CodeConfigProperties {
 		sourceRootPackage = getSourceRootPackage().replace(".", "/");
 		webRootPackage = getWebRootPackage().replace(".", "/");
 	}
+
+	/**
+	 * 表格主键字段名称
+	 */
 	public static String DB_TABLE_ID;
+
+	/**
+	 * 需要过滤的字段名称
+	 */
 	public static String PAGE_FILTER_FIELDS;
 
 	public static final String getDIVER_NAME() {

@@ -1,5 +1,8 @@
 package com.sizatn.sz.codegenerate.generate.pojo;
 
+/**
+ * 目前这个意义不太大，属于代码生成层面的逻辑基类
+ */
 public class CgFormColumnExtendVo {
 	protected Integer fieldLength;
 	protected String fieldHref;

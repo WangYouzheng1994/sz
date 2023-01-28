@@ -67,6 +67,13 @@ public class FreemarkerHelper {
 		return localArrayList.<String>toArray(new String[localArrayList.size()]);
 	}
 
+	/**
+	 *
+	 * @param paramString
+	 * @param paramMap
+	 * @param paramConfiguration
+	 * @return
+	 */
 	public static String processTemplateString(String paramString, Map<String, Object> paramMap,
 			Configuration paramConfiguration) {
 		StringWriter localStringWriter = new StringWriter();

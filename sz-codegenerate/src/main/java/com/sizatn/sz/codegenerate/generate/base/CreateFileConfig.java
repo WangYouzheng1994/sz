@@ -7,8 +7,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 模板配置类
+ */
 public class CreateFileConfig {
 	private static final Logger log = LoggerFactory.getLogger(CreateFileConfig.class);
+	/**
+	 * 模板所在路径
+	 */
 	private String templatePath;
 	private List<File> templateRootDirs = new ArrayList<>();
 
