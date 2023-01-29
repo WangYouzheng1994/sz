@@ -29,6 +29,7 @@
 		<module>sz-webapp</module>
 		<module>sz-codegenerate</module>
 		<module>sz-securty</module>
+		<module>wyz-commons</module>
 	</modules>
 	
 	<build>
